@@ -8,17 +8,16 @@ use File::Temp;
 my $dialog_comm_pipe = "comm_pipe";
 my $dialog_comm_pipe_permissions = 0666;
 my $ret;
-
-my $DIALOG_OK = 0;
-my $DIALOG_CANCEL = 1;
-my $DIALOG_HELP = 2;
-my $DIALOG_EXTRA = 3;
-my $DIALOG_ITEM_HELP = 4;
-my $DIALOG_ESC = 255;
-
 my $tempfilename;
 my $fh_comm = File::Temp->new();
 my $dialog_comm_file = $fh_comm->filename;
+
+use constant DIALOG_OK => 0;
+use constant DIALOG_CANCEL => 1;
+use constant DIALOG_HELP => 2;
+use constant DIALOG_EXTRA => 3;
+use constant DIALOG_ITEM_HELP => 4;
+use constant DIALOG_ESC => 255;
 
 print "dialog_comm_file is: $dialog_comm_file\n";
 

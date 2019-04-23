@@ -5,6 +5,8 @@ use strict;
 
 use File::Temp;
 
+use Dialog;
+
 my $dialog_comm_pipe = "comm_pipe";
 my $dialog_comm_pipe_permissions = 0666;
 my $ret;
@@ -18,6 +20,8 @@ use constant DIALOG_HELP => 2;
 use constant DIALOG_EXTRA => 3;
 use constant DIALOG_ITEM_HELP => 4;
 use constant DIALOG_ESC => 255;
+
+Dialog::test();
 
 print "dialog_comm_file is: $dialog_comm_file\n";
 

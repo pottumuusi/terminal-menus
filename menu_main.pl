@@ -3,8 +3,6 @@
 use warnings;
 use strict;
 
-use File::Temp;
-
 use Dialog;
 
 my $dialog_result = undef;

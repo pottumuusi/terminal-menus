@@ -13,6 +13,8 @@ use constant DIALOG_ITEM_HELP => 4;
 use constant DIALOG_ESC => 255;
 use constant DIALOG_ERR => 256;
 
+use File::Temp;
+
 our $init_done = 0;
 our $fh_comm = undef;
 our $dialog_comm_file = undef;

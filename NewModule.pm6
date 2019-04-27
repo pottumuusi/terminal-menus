@@ -1,5 +1,3 @@
-# Module
-
 unit module NewModule; # TODO rename me
 
 use File::Temp;	# Installed by running "zef install File::Temp"
@@ -28,11 +26,7 @@ class Dialog {
 	# method new {}
 
 	method init() {
-		# $!fh_comm = File::Temp->new();
-		# $!dialog_comm_file = $fh_comm->filename;
 		($!fh_comm, $!dialog_comm_file) = tempfile;
-
-		# TODO check that dialog_comm_file exists(?)
 
 		if (DEBUG) {
 			say("dialog_comm_file is: $!dialog_comm_file");
@@ -50,13 +44,8 @@ class Dialog {
 		}
 
 		# File::Temp closes the file handle automatically? At least
-		# temp file unlink is done automatically.
-		#
-		# if (defined $!fh_comm) {
-		# 	say("closing fh_comm");
-		# 	close($!fh_comm); # TODO handle close failure(?)
-		# 	say("done closing fh_comm");
-		# }
+		# temp file unlink is done automatically. File handle is closed
+		# on DESTROY (what is it?).
 
 		$!init_done = 0;
 
@@ -109,12 +98,5 @@ class Dialog {
 		}
 
 		return $result;
-	}
-
-	# TODO deleteme
-	method tryme($par1) {
-		say("I have been tried :O ; par1 is: $par1");
-		say("init_done is: $!init_done");
-		# say("DEBUG is: DEBUG");
 	}
 };

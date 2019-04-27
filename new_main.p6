@@ -1,19 +1,25 @@
 #!$HOME/my/tools/perl/rakudo/install/bin/perl6
 
+# TODO rename this file
+
 # need NewModule; # How does need keyword work?
 
 use v6;
-
 use File::Temp;	# Installed by running "zef install File::Temp"
 		# TODO add File::Temp installing as a build dependency
 use NewModule;
+use Util;
 
 constant $DIALOG_OK = 0;
 constant $TEST = "A test";
 
-my $dialog = NewModule::Dialog.new();
+# if (Util::Debug.DEBUG()) {
+# 	say("Debug is on");
+# } else {
+# 	say("Debug is off");
+# }
 
-$dialog.tryme("passed to tryme");
+my $dialog = NewModule::Dialog.new();
 
 say("DIALOG_OK is: $DIALOG_OK");
 say("TEST is: $TEST");
@@ -28,14 +34,3 @@ my $user_insertion = $dialog.input_box(16, 51);
 $dialog.teardown();
 
 say("user_insertion: is $user_insertion");
-
-# use Dialog;
-# 
-# my $dialog_result = undef;
-# 
-# Dialog::init();
-# 
-# $dialog_result = Dialog::input_box(16, 51);
-# print("dialog_result is: $dialog_result\n");
-# 
-# Dialog::teardown();

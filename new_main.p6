@@ -2,6 +2,8 @@
 
 # need NewModule; # How does need keyword work?
 
+use v6;
+
 use File::Temp;	# Installed by running "zef install File::Temp"
 		# TODO add File::Temp installing as a build dependency
 use NewModule;
@@ -22,8 +24,10 @@ my $filename;
 say("filename is: $filename");
 
 $dialog.init();
-$dialog.input_box(16, 51);
+my $user_insertion = $dialog.input_box(16, 51);
 $dialog.teardown();
+
+say("user_insertion: is $user_insertion");
 
 # use Dialog;
 # 

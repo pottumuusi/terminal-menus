@@ -92,21 +92,20 @@ class Dialog {
 		# }
 
 		# Construct dialog command which passes user input via temp file.
-		# $dialog_cmd = "dialog ";
-		# $dialog_cmd ,= "--title 'INPUT BOX' ";
-		# $dialog_cmd ,= "--clear ";
-		# $dialog_cmd ,= "--inputbox 'Hello' $height $width ";
-		# $dialog_cmd ,= "2> $!dialog_comm_file";
+		$dialog_cmd = "dialog ";
+		$dialog_cmd ~= "--title 'INPUT BOX' ";
+		$dialog_cmd ~= "--clear ";
+		$dialog_cmd ~= "--inputbox 'Hello' $height $width ";
+		$dialog_cmd ~= "2> $!dialog_comm_file";
 
-		$dialog_cmd = "dialog --title 'INPUT BOX' --clear --inputbox 'Hello' $height $width 2> $!dialog_comm_file";
 		say("running command $dialog_cmd");
 		$ret = shell("$dialog_cmd");
 		# $ret = system("$dialog_cmd");
 
 		$result = "";
-		while (my $row = <$!fh_comm>) {
-			chomp $row;
-			$result ,= $row;
+		for $!fh_comm.IO.lines -> $row {
+			$row.chomp;
+			$result ~= $row;
 		}
 
 		return $result;

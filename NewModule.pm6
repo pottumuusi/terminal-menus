@@ -53,9 +53,18 @@ class Dialog {
 	}
 
 	method !init_ok() {
+		my constant __FUNC__ = "init_ok"; # TODO Do this properly
+						  # Try: sub awesome-sub { say &?ROUTINE.name }
+
 		# TODO Add necessary checks
 
+		if (! $!init_done) {
+			say(__FUNC__ ~ "Init not done");
+			return 0;
+		}
+
 		if (! defined $!dialog_comm_file) {
+			say(__FUNC__ ~ "No file for communicating with dialog");
 			return 0;
 		}
 
@@ -65,20 +74,14 @@ class Dialog {
 	method input_box($height, $width) {
 		say("input_box start");
 
-		# TODO Give height and width as named parameters
-		# my $height = $_[0];
-		# my $width = $_[1];
-
 		my $ret = DIALOG_ERR;
 		my $result;
 		my $dialog_cmd;
 
-		# TODO take into use
-		#
-		# if (!init_ok()) {
-		# 	print("Dialog not initialized properly\n");
-		# 	return -1;
-		# }
+		if (! self!init_ok()) {
+			print("Dialog not initialized properly\n");
+			return -1;
+		}
 
 		# Construct dialog command which passes user input via temp file.
 		$dialog_cmd = "dialog ";

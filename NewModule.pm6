@@ -1,11 +1,14 @@
 unit module NewModule; # TODO rename me
 
+use Util;
 use File::Temp;	# Installed by running "zef install File::Temp"
 		# TODO add File::Temp installing as a build dependency
 
+# TODO Use g_debug.print for all debug prints
+
 # TODO possibly rename me when module renamed
 class Dialog {
-	my constant DEBUG = 1;
+	my constant DEBUG_ON = 1;
 
 	my constant DIALOG_OK = 0;
 	my constant DIALOG_CANCEL = 1;
@@ -14,6 +17,8 @@ class Dialog {
 	my constant DIALOG_ITEM_HELP = 4;
 	my constant DIALOG_ESC = 255;
 	my constant DIALOG_ERR = 256;
+
+	has $!g_debug = Nil;
 
 	has $!init_done = 0;
 	has $!fh_comm;
@@ -26,11 +31,11 @@ class Dialog {
 	# method new {}
 
 	method init() {
-		($!fh_comm, $!dialog_comm_file) = tempfile;
+		$!g_debug = Util::Debug.new();
 
-		if (DEBUG) {
-			say("dialog_comm_file is: $!dialog_comm_file");
-		}
+		($!fh_comm, $!dialog_comm_file) = tempfile;
+		$!g_debug.print(DEBUG_ON,
+				"dialog_comm_file is: $!dialog_comm_file");
 
 		$!init_done = 1;
 
@@ -53,18 +58,15 @@ class Dialog {
 	}
 
 	method !init_ok() {
-		my constant __FUNC__ = "init_ok"; # TODO Do this properly
-						  # Try: sub awesome-sub { say &?ROUTINE.name }
-
 		# TODO Add necessary checks
 
 		if (! $!init_done) {
-			say(__FUNC__ ~ "Init not done");
+			say(&?ROUTINE.name ~ ": Init not done");
 			return 0;
 		}
 
 		if (! defined $!dialog_comm_file) {
-			say(__FUNC__ ~ "No file for communicating with dialog");
+			say(&?ROUTINE.name ~ ": No file for communicating with dialog");
 			return 0;
 		}
 
@@ -92,7 +94,6 @@ class Dialog {
 
 		say("running command $dialog_cmd");
 		$ret = shell("$dialog_cmd");
-		# $ret = system("$dialog_cmd");
 
 		$result = "";
 		for $!fh_comm.IO.lines -> $row {

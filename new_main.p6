@@ -5,32 +5,43 @@
 # need NewModule; # How does need keyword work?
 
 use v6;
+use Util;
+use NewModule;
 use File::Temp;	# Installed by running "zef install File::Temp"
 		# TODO add File::Temp installing as a build dependency
-use NewModule;
-use Util;
 
-constant $DIALOG_OK = 0;
-constant $TEST = "A test";
+# TODO Use g_debug.print for all debug prints
 
-# if (Util::Debug.DEBUG()) {
-# 	say("Debug is on");
-# } else {
-# 	say("Debug is off");
-# }
+sub main() {
+	# TODO remove test constants
+	constant $DIALOG_OK = 0;
+	constant $TEST = "A test";
 
-my $dialog = NewModule::Dialog.new();
+	my $fh;
+	my $dialog;
+	my $filename;
+	my $global_debug;
 
-say("DIALOG_OK is: $DIALOG_OK");
-say("TEST is: $TEST");
+	$dialog = NewModule::Dialog.new();
+	$global_debug = Util::Debug.new(); # TODO rename to g_debug
 
-my $fh;
-my $filename;
-($fh, $filename) = tempfile;
-say("filename is: $filename");
+	if ($global_debug.is_on()) {
+		say("DIALOG_OK is: $DIALOG_OK");
+		say("TEST is: $TEST");
+	}
 
-$dialog.init();
-my $user_insertion = $dialog.input_box(16, 51);
-$dialog.teardown();
+	($fh, $filename) = tempfile;
+	if ($global_debug.is_on()) {
+		say("filename is: $filename");
+	}
 
-say("user_insertion: is $user_insertion");
+	$dialog.init();
+	my $user_insertion = $dialog.input_box(16, 51);
+	$dialog.teardown();
+
+	if ($global_debug.is_on()) {
+		say("user_insertion: is $user_insertion");
+	}
+}
+
+main();
